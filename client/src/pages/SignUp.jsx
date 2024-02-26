@@ -14,10 +14,16 @@ export default function SignUp() {
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: json.stringyfy(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-    } catch (error) {}
+      const data = await res.json();
+      res.send(200).json({success : true , message : data});
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
   };
 
   return (
@@ -39,7 +45,7 @@ export default function SignUp() {
 
         {/* right */}
         <div className="flex-1">
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" >
             <div>
               <Label value="Your username" />
               <TextInput
@@ -69,8 +75,7 @@ export default function SignUp() {
             </div>
             <Button
               gradientDuoTone="purpleToPink"
-              type="submit"
-              onSubmit={handleSubmit}
+              onClick={handleSubmit}
             >
               Sign Up
             </Button>
