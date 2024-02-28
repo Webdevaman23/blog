@@ -30,14 +30,15 @@ export default function SignUp() {
       });
       const data = await res.json();
 
-      if (data.success === false) {
+      if (!data.success) {
         return setErrorMessage(data.message);
       }
-      setLoading(false);
-
+      
       if(res.ok){
         navigate('/sign-in');
       }
+      setLoading(false);
+
     } catch (error) {
       setErrorMessage(error.message);
       setLoading(false);
