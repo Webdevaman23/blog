@@ -6,6 +6,7 @@ export const test = async (req, res) => {
   res.json({ message: "Api is working" });
 };
 
+// update user
 export const updateUser = async (req, res, next) => {
   // if(req.user.id !== req.params.userId){
   //     return next(errorHandler(403 , "You are not allowed to update this user"));
@@ -51,6 +52,7 @@ export const updateUser = async (req, res, next) => {
   console.log(req.user);
 };
 
+// delete user
 export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return errorHandler(403, "You are not allowed to delete this user");
@@ -62,3 +64,12 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// signout user
+export const signout = async(req,res,next) => {
+    try {
+        res.clearCookie('access_token').status(200).json('User has been signout')
+    } catch (error) {
+        next(error)
+    }
+}
