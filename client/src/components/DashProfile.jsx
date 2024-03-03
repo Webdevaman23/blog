@@ -17,12 +17,13 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
-  signoutSuccess
+  signoutSuccess,
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import {Link} from 'react-router-dom';
 
 export default function DashProfile() {
-  const { currentUser , error , loading} = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -126,39 +127,39 @@ export default function DashProfile() {
     }
   };
 
-  const handleDeleteUser = async() => {
+  const handleDeleteUser = async () => {
     setShowModel(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}` , {
-        method : 'DELETE',
-      })
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         dispatch(deleteUserFailure(data.message));
-      }else{
+      } else {
         dispatch(deleteUserSuccess(data));
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
 
   const handleSignout = async () => {
     try {
-    const res = await fetch('/api/user/signout' , {
-      method : 'POST'
-    });
-    const data = await res.json();
-    if(!res.ok){
-      console.log(data.message)
-    }else{
-      dispatch(signoutSuccess())
-    }
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -226,15 +227,29 @@ export default function DashProfile() {
           placeholder="********"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Update
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>
+          {loading ? "Loading..." : 'Update'}
         </Button>
+
+        {currentUser && (
+          <Link to='/create-post'>
+            <Button
+              type="button"
+              className="w-full"
+              gradientDuoTone="purpleToPink"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModel(true)}>
           Delete Account
         </span>
-        <span className="cursor-pointer" onClick={handleSignout}>Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignout}>
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
@@ -266,14 +281,13 @@ export default function DashProfile() {
               Are you sure you want to delete your account?
             </h3>
             <div className="flex justify-center gap-6">
-            <Button color='failure' onClick={handleDeleteUser}>
-              Yes I'am Sure
-            </Button>
-            <Button color="gray" onClick={()=>setShowModel(false)}>
-              No, Cancel
-            </Button>
+              <Button color="failure" onClick={handleDeleteUser}>
+                Yes I'am Sure
+              </Button>
+              <Button color="gray" onClick={() => setShowModel(false)}>
+                No, Cancel
+              </Button>
             </div>
-           
           </div>
         </Modal.Body>
       </Modal>
