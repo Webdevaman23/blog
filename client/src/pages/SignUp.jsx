@@ -31,11 +31,11 @@ export default function SignUp() {
       });
       const data = await res.json();
 
-      if (!data.success) {
+      if (!data.data) {
         return setErrorMessage(data.message);
       }
       
-      if(res.ok){
+      if(data.data){
         navigate('/sign-in');
       }
       setLoading(false);
