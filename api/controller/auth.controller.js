@@ -56,8 +56,8 @@ export const signin = async (req, res, next) => {
 
       res
         .status(200)
-        .cookie("access token", token, { httpOnly: true })
-        .json({ message: "Signin succesfull", rest });
+        .cookie("access_token", token, { httpOnly: true })
+        .json({ message: "Signin succesfull", ...rest });
     }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
