@@ -20,7 +20,7 @@ import {
   signoutSuccess,
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -227,12 +227,17 @@ export default function DashProfile() {
           placeholder="********"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>
-          {loading ? "Loading..." : 'Update'}
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToBlue"
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
 
         {currentUser && (
-          <Link to='/create-post'>
+          <Link to="/create-post">
             <Button
               type="button"
               className="w-full"
