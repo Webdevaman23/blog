@@ -132,7 +132,7 @@ export const getUser = async( req, res , next) => {
       return next(errorHandler(404 , 'User not found'));
     }
     const {password , ...rest} = user._doc;
-    res.status(200).json(...rest);
+    res.status(200).json(rest);
   } catch (error) {
     next(error)
   }
